@@ -21,4 +21,18 @@ export class CommentDetoxificationController {
 
     }
 
+    @Post('classification')
+    @ApiOperation({summary : 'Classify the text'})
+    async classifyText(@Body() detoxifyCommentDto:DetoxifyCommentDto){
+        const {comment} = detoxifyCommentDto;
+        const response = await this.commentService.rateToxification(comment);
+        await this.commentService.storeRating(comment,response);
+        return {
+            comment:comment,
+            response:response,
+        }
+    }
+
+
+
 }
